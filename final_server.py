@@ -27,7 +27,6 @@ class Fbcli:
 
 	def getOAuthCode(self):
 		url = 'https://www.facebook.com/v2.2/dialog/oauth?client_id=1176148169078022&scope=public_profile&response_type=code&redirect_uri=http://localhost:7777'
-		print url+'\n'
 		webbrowser.open(url, new=1, autoraise=True)
 		self.startServer()
 		
@@ -35,9 +34,6 @@ class Fbcli:
 		time.sleep(10)
 		self.stopServer()
 		x = self.getCodeParsed()	
-		print "Shit under"
-		print x 
-		print "\n\nDonw\n\n"
 		return x
 
 	def getCodeParsed(self):
@@ -52,7 +48,6 @@ class Fbcli:
 		print codeurl + '\n'
 		resp = requests.get(codeurl)
 		respContent = resp.content
-		print "Access_token donw: "
 		print respContent[13:-16]
 		return respContent[13:-16]
 
@@ -63,7 +58,7 @@ class Fbcli:
 		print "Welcome " + jsonData["name"]
 		print "Your User ID: " + jsonData["id"]
 		print "Your access token (keep it safe): " + str(accessToken)
-		print "Thanks dumbass i have your password"
+		print "Thanks dumbass I have your password"
 	
 	def storeCredential(self):
 		pass
