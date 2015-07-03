@@ -1,20 +1,17 @@
 import SimpleHTTPServer
-import SocketServer
+from BaseHTTPServer import HTTPServer
+from SimpleHTTPServer import SimpleHTTPRequestHandler as BaseHTTPRequestHandler
 import sys
 import os
 import requests
 import webbrowser
 import time
 import subprocess
-
-"""Server Thingy statrs here"""
-
-# Fuck this start_server, it never stops. Have to fix this ASAP
+import threading
+PORT = 7777 # Make sure the port is noot in use with some other app
 
 def start_server():
-	PORT = 7777 # Make sure the port is noot in use with some other app
-
-	class MyHTTPHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+	'''class MyHTTPHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 	    log_file = open('logfile.txt', 'w')
 	    def log_message(self, format, *args):
 	        self.log_file.write("%s\n" % (format%args))
@@ -25,39 +22,42 @@ def start_server():
 
 	print "serving at port", PORT
 
-	httpd.serve_forever()
+	httpd.serve_forever()'''
 
-def close_server():
+	server = HTTPServer(('localhost', PORT), BaseHTTPRequestHandler)
+	thread = threading.Thread(target = server.serve_forever)
+	thread.deamon = True
+
+def up():
+	start_server()
+	thread.start()
+	print "Starting"
+
+def down():
 	server.shutdown()
+	print "Closing"
 
 
 """ Get access token parsed from the server log response """
-# def getAccessTokenParsed():
-	# myfile = open('/home/manoj/fb-terminal/logfile.txt')
-    # return list(myfile)[-1][12:-16]
+def getAccessTokenParsed():
+	myfile = open('/Users/ankitsultana/GitHub/fb-terminal/logfile.txt')
+	return list(myfile)[0][12:-16]
 
 
 """ Getting the Oauth token by authorizing the app """
 def getOAuthToken():
-	url = "https://www.facebook.com/v2.2/dialog/oauth? \
-					client_id=1176148169078022 \
-					&scope=public_profile \
-					&response_type=code \
-					&redirect_uri=http://localhost:7777"
-	# webbrowser.open(url, new=0, autoraise=True)
-	webbrowser.open(url)
+	url = "https://www.facebook.com/v2.2/dialog/oauth?client_id=1176148169078022&scope=public_profile&response_type=code&redirect_uri=http://localhost:7777"
+	webbrowser.open(url, new=1, autoraise=True)
+	#webbrowser.open(url)
 
 	# Improve this part
-	# start_server()
-	
-	# close_server()
-	# serial.write('\x03')
-	# subprocess.Popen("\x03")
+	up()
+	time.sleep(2)
+	down()
 
 	# get the access token from the redirected url received on server
-	
-	# a_token = getAccessTokenParsed()
-	a_token = raw_input()
+	a_token = getAccessTokenParsed()
+
 	print a_token
 
 	# returning oauth token
