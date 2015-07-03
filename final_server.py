@@ -19,7 +19,6 @@ class CustomHTTPHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 server = HTTPServer(('localhost', PORT), CustomHTTPHandler)
 class Fbcli:
 
-
 	def startServer(self):	
 		thread = threading.Thread(target = server.serve_forever)
 		thread.deamon = True
