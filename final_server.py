@@ -45,10 +45,9 @@ class Fbcli:
 
 	def getAccessTokenFromCode(self, OAuthCode):
 		codeurl = 'https://graph.facebook.com/oauth/access_token?client_id=1176148169078022&client_secret=a623b10331c1246be41c7eaa9f78c481&code='+OAuthCode+'&redirect_uri=http://localhost:7777/'
-		print codeurl + '\n'
 		resp = requests.get(codeurl)
 		respContent = resp.content
-		print respContent[13:-16]
+		#print respContent[13:-16]
 		return respContent[13:-16]
 
 	def getUserDetails(self, accessToken):
@@ -57,8 +56,7 @@ class Fbcli:
 		jsonData = resp.json()
 		print "Welcome " + jsonData["name"]
 		print "Your User ID: " + jsonData["id"]
-		print "Your access token (keep it safe): " + str(accessToken)
-		print "Thanks dumbass I have your password"
+		#print "Your access token (keep it safe): " + str(accessToken)
 	
 	def storeCredential(self):
 		pass
