@@ -4,7 +4,7 @@ token = ''
 
 parameters = {'access_token': token}
 
-resp = requests.get('https://graph.facebook.com/v2.3/me/friends?fields=name,location', params = parameters)
+resp = requests.get('https://graph.facebook.com/v2.3/me/friends?limit=100&fields=name,location', params = parameters)
 jsonData = resp.json()
 
 noLocation = []
